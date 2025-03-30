@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>更新画面</title>    
+</head>
+
+<body>
+  <h1>{{ title }}</h1>
+
+  <form action="{% url 'my_app:update' id %}" method="post">
+    {% csrf_token %}
+
+    <label>名前:</label>
+    {{ form.name }}
+    <div style="color: #FF0000;">{{ form.name.errors }}</div>
+
+    <label>年齢:</label>
+    {{ form.age }}
+    <div style="color: #FF0000;">{{ form.age.errors }}</div>
+
+    <input type="submit" value="送信">
+  </form>
+
+</body>
+

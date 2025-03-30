@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+  </head>
+  <body>
+    <h2>ログイン</h2>
+    {% if form.errors %}
+      <p style="color:red;">ユーザー名またはパスワードが正しくありません。</p>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <label for="id_username">ユーザー名:</label>
+      {{ form.username }}<br>
+      <label for="id_password">パスワード:</label>
+      {{ form.password }}<br>
+      <button type="submit">ログイン</button>
+    </form>
+    <br>
+    
+    <div>
+      <a href="{% url 'my_app:signup' %}">アカウント登録</a>
+    </div>
+  </body>
+</html>
+
