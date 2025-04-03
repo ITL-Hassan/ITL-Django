@@ -4,10 +4,28 @@ from .forms import AddMemberForm
 from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 
+from django.db.models import Q
+
 @login_required
 def index(request):
   header = ['ID', '名前', '年齢']
-  members = Member.objects.filter(deleted=False).all()
+  query = request.GET.get('q')
+  if query:
+    members = Member.objects.filter(deleted=False).all()
+    members = members.filter(
+      Q(name__icontains=query)
+      | Q(age__icontains=query)
+    )
+  else:
+    members = Member.objects.filter(deleted=False).all()
+  
+  # 並び
+  if request.GET.get('order'):
+    order = request.GET.get('order') 
+  else:
+    order = 'id'
+  members = members.order_by(order)
+  
   data = {
     'members' : members,
     'header' : header,
@@ -56,7 +74,7 @@ def delete(request, num):
 
   if (request.method == 'POST'):
     member_obj.deleted = True
-    member_obj.delete()
+    member_obj.save()
     return redirect(to='/my_app/index')
   
   data = {
