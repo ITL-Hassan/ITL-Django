@@ -8,16 +8,32 @@
 <body>
   <h1>{{ title }}</h1>
 
-  <form action="{% url 'my_app:update' id %}" method="post">
+  <form action="{% url 'my_app:update' id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <label>名前:</label>
-    {{ form.name }}
-    <div style="color: #FF0000;">{{ form.name.errors }}</div>
+    <p>
+      <label>名前:</label>
+      {{ form.name }}
+      <div style="color: #FF0000;">{{ form.name.errors }}</div>
+    </p>
 
-    <label>年齢:</label>
-    {{ form.age }}
-    <div style="color: #FF0000;">{{ form.age.errors }}</div>
+    <p>
+      <label>年齢:</label>
+      {{ form.age }}
+      <div style="color: #FF0000;">{{ form.age.errors }}</div>
+    </p>
+  
+    <p>
+      <label for="id_image">画像:</label>
+      {% if member.image %}
+        <p>
+          <img src="{{ member.image.url }}"/>
+        </p>
+      {% endif %}
+
+      {{ form.image }}
+      <div style="color: #FF0000;">{{ form.image.errors }}</div>
+    </p>
 
     <input type="submit" value="送信">
   </form>

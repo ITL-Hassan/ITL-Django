@@ -14,6 +14,12 @@
     <dd>{{ member.name }}</dd>
     <dt>{{ label.2 }}</dt>
     <dd>{{ member.age }}</dd>
+    <dt>{{ label.3 }}</dt>
+    <dd>
+      {% if member.image %}
+        <img src="{{ member.image.url }}"/>
+      {% endif %}
+    </dd>
   </dl>
 
   <form action="{% url 'my_app:delete' id %}" method="post">

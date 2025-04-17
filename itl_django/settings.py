@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a(%=$=07x_b2ze*u%h_+ff%v%_cey3=^w%y_tv35v*k$nx5_b_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -132,3 +132,7 @@ LOGOUT_REDIRECT_URL = '/my_app/accounts/login/'
 
 # ログインページのURL
 LOGIN_URL = '/my_app/accounts/login/'
+
+# メディアファイルの保存場所の指定
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"

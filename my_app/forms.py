@@ -11,10 +11,9 @@ class SignUpForm(UserCreationForm):
 class AddMemberForm(forms.ModelForm):
   class Meta:
     model = Member
-    fields = ['name', 'age']
+    fields = ['name', 'age', 'image']
 
   def clean_name(self):
-
     name = self.cleaned_data.get('name')
     if not name.strip():
       raise forms.ValidationError('名前を入力してください。')

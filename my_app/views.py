@@ -19,7 +19,6 @@ def index(request):
   else:
     members = Member.objects.filter(deleted=False).all()
   
-  # 並び
   if request.GET.get('order'):
     order = request.GET.get('order') 
   else:
@@ -56,9 +55,12 @@ def update(request, num):
   data = {
     'title' : '更新ページ',
     'id' : num,
+    'member': member_obj,
   }
+  
   if request.method == 'POST':
-    form = AddMemberForm(request.POST, instance=member_obj)
+    form = AddMemberForm(request.POST, request.FILES, instance=member_obj)
+
     data['form'] = form
     if form.is_valid():
       form.save()
@@ -74,13 +76,16 @@ def delete(request, num):
 
   if (request.method == 'POST'):
     member_obj.deleted = True
+    member_obj.image.delete(save=False)
+    member_obj.image = None
     member_obj.save()
+
     return redirect(to='/my_app/index')
   
   data = {
     'title' : '削除ページ',
     'id' : num,
-    'label' : ['ID', '名前', '年齢'],
+    'label' : ['ID', '名前', '年齢', '画像'],
     'member' : member_obj,
   }
   return render(request, 'my_app/delete.html', data)
