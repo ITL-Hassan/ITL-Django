@@ -40,8 +40,18 @@
     </form>
   </header>
 
+  <!-- 天気情報 -->
+  <section>
+    <p>{{ weather.date }}の天気：<img src="{{ weather.image }}" alt="{{ weather.telop }}"></p>
+    <p>
+      最高気温 {% if weather.min %}{{ weather.max }}{% else %} - {% endif %}
+       / 
+      最低気温 {% if weather.min %}{{ weather.min }}{% else %} - {% endif %}
+    </p>
+  </section>
+
   <!-- 検索フォーム -->
-  <div >
+  <div>
     <form method="GET" action="{% url 'my_app:index' %}">
       <input type="text" name="q" value="{{ request.GET.q }}">
 

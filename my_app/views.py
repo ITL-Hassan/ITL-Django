@@ -3,8 +3,8 @@ from .models import Member
 from .forms import AddMemberForm
 from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
-
 from django.db.models import Q
+from .utils import getWeatherData
 
 @login_required
 def index(request):
@@ -24,11 +24,14 @@ def index(request):
   else:
     order = 'id'
   members = members.order_by(order)
-  
+
+  weather = getWeatherData() 
   data = {
     'members' : members,
     'header' : header,
+    'weather' : weather,
   }
+  
   return render(request, 'my_app/index.html', data)
 
 @login_required
