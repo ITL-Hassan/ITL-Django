@@ -31,7 +31,7 @@
           border-radius: 4px;
       }
 
-      button {
+      #submit {
           margin-top: 20px;
           padding: 10px;
           background-color: #28a745;
@@ -40,7 +40,7 @@
           border-radius: 4px;
           cursor: pointer;
       }
-      button:hover {
+      #submit:hover {
           background-color: #218838;
       }
       .error {
@@ -54,12 +54,13 @@
 
     </style>
   </head>
+
   <body>
     <h2>ユーザー登録</h2>
     <form method="post">
       {% csrf_token %}
 
-      <label for="id_username">ユーザー名:</label>
+      <label>ユーザー名:</label>
       {{ form.username }}
       {% if form.username.errors %}
         <p class="error">{{ form.username.errors.0 }}</p>
@@ -71,29 +72,14 @@
         パスワード     password1
         パスワード（確認）  password2
        -->
-      <label for="id_email">メールアドレス:</label>
-      {{ form.email }}
-      {% if form.email.errors %}
-        <p class="error">{{ form.email.errors.0 }}</p>
-      {% endif %}
 
-      <label for="id_password1">パスワード:</label>
-      {{ form.password1 }}
-      {% if form.password1.errors %}
-        <p class="error">{{ form.password1.errors.0 }}</p>
-      {% endif %}
-
-      <label for="id_password2">パスワード（確認）:</label>
-      {{ form.password2 }}
-      {% if form.password2.errors %}
-        <p class="error">{{ form.password2.errors.0 }}</p>
-      {% endif %}
-
-      <button type="submit">登録</button>
+      <input id="submit" type="submit" value="登録">
     </form>
 
     <div class="login-link">
-      <p>すでにアカウントをお持ちですか？ <a href="/my_app/accounts/login/">ログイン</a></p>
+      <p>すでにアカウントをお持ちですか？
+        <a href="/my_app/accounts/login/">ログイン</a></p>
     </div>
   </body>
+
 </html>

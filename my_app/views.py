@@ -5,6 +5,7 @@ from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .utils import getWeatherData
+from django.http import Http404
 
 @login_required
 def index(request):
@@ -55,6 +56,8 @@ def create(request):
 @login_required
 def update(request, num):
   member_obj = Member.objects.filter(id=num, deleted=False).first()
+  if not member_obj:
+    raise Http404
   data = {
     'title' : '更新ページ',
     'id' : num,

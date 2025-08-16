@@ -24,14 +24,17 @@
     </p>
   
     <p>
+
       <label for="id_image">画像:</label>
       {% if member.image %}
         <p>
           <img src="{{ member.image.url }}"/>
         </p>
       {% endif %}
-
       {{ form.image }}
+    </p>
+
+    <p>
       <div style="color: #FF0000;">{{ form.image.errors }}</div>
     </p>
 
