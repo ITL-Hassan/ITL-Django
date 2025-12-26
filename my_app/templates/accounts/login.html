@@ -1,11 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
     <title>ログイン</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
   </head>
-  <body>
+
+  <body id="login">
     <h2>ログイン</h2>
+    
     {% if form.errors %}
       <p style="color:red;">ユーザー名またはパスワードが正しくありません。</p>
     {% endif %}

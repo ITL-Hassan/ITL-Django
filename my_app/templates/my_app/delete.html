@@ -1,12 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>削除画面</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
 </head>
 
-<body>
+<body id="delete">
   <h1>{{ title }}</h1>
+  
   <dl>
     <dt>{{ label.0 }}</dt>
     <dd>{{ member.id }}</dd>

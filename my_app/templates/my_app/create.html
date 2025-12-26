@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>入力画面</title>    
+    <title>入力画面</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
 </head>
 
-<body>
+<body id="create">
   <h1>{{ title }}</h1>
 
   <form action="{% url 'my_app:create' %}" method="post" enctype="multipart/form-data">

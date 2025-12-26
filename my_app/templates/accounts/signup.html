@@ -1,62 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ユーザー登録</title>
-    <style>
-      body {
-          max-width: 400px;
-          margin: 50px auto;
-          padding: 20px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      h2 {
-          text-align: center;
-      }
-      form {
-          display: flex;
-          flex-direction: column;
-      }
-      label {
-          margin-top: 10px;
-          font-weight: bold;
-      }
-      input {
-          padding: 8px;
-          margin-top: 5px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-      }
-
-      #submit {
-          margin-top: 20px;
-          padding: 10px;
-          background-color: #28a745;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-      }
-      #submit:hover {
-          background-color: #218838;
-      }
-      .error {
-          color: red;
-          font-size: 0.9em;
-      }
-      .login-link {
-          text-align: center;
-          margin-top: 15px;
-      }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
   </head>
 
-  <body>
+  <body id="signup">
     <h2>ユーザー登録</h2>
+    
     <form method="post">
       {% csrf_token %}
 
@@ -65,13 +19,21 @@
       {% if form.username.errors %}
         <p class="error">{{ form.username.errors.0 }}</p>
       {% endif %} 
-
-      <!-- 
-        長いので省略。ユーザー名と同じように以下4つの項目も作る
-        メールアドレス email
-        パスワード     password1
-        パスワード（確認）  password2
-       -->
+      <label>メール:</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <p class="error">{{ form.email.errors.0 }}</p>
+      {% endif %} 
+      <label>パスワード:</label>
+      {{ form.password1 }}
+      {% if form.passowrd1.errors %}
+        <p class="error">{{ form.passowrd1.errors.0 }}</p>
+      {% endif %} 
+      <label>パスワード（確認）:</label>
+      {{ form.password2 }}
+      {% if form.passowrd2.errors %}
+        <p class="error">{{ form.passowrd2.errors.0 }}</p>
+      {% endif %} 
 
       <input id="submit" type="submit" value="登録">
     </form>
