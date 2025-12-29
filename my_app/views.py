@@ -28,6 +28,7 @@ def index(request):
 
   weather = getWeatherData() 
   data = {
+    'title' : 'indexページ',
     'members' : members,
     'header' : header,
     'weather' : weather,

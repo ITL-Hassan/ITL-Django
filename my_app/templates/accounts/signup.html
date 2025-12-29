@@ -1,47 +1,44 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ユーザー登録</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
-  </head>
+{% extends 'base.html' %}
 
-  <body id="signup">
-    <h2>ユーザー登録</h2>
-    
-    <form method="post">
-      {% csrf_token %}
+{% block head %}
+<title>ユーザー登録画面</title>
+{% endblock %}
 
-      <label>ユーザー名:</label>
-      {{ form.username }}
-      {% if form.username.errors %}
-        <p class="error">{{ form.username.errors.0 }}</p>
-      {% endif %} 
-      <label>メール:</label>
-      {{ form.email }}
-      {% if form.email.errors %}
-        <p class="error">{{ form.email.errors.0 }}</p>
-      {% endif %} 
-      <label>パスワード:</label>
-      {{ form.password1 }}
-      {% if form.passowrd1.errors %}
-        <p class="error">{{ form.passowrd1.errors.0 }}</p>
-      {% endif %} 
-      <label>パスワード（確認）:</label>
-      {{ form.password2 }}
-      {% if form.passowrd2.errors %}
-        <p class="error">{{ form.passowrd2.errors.0 }}</p>
-      {% endif %} 
+{% block page %}signup{% endblock %}
 
-      <input id="submit" type="submit" value="登録">
-    </form>
+{% block content %}
+<h2>ユーザー登録</h2>
 
-    <div class="login-link">
-      <p>すでにアカウントをお持ちですか？
-        <a href="/my_app/accounts/login/">ログイン</a></p>
-    </div>
-  </body>
+<form method="post">
+  {% csrf_token %}
 
-</html>
+  <label>ユーザー名:</label>
+  {{ form.username }}
+  {% if form.username.errors %}
+    <p class="error">{{ form.username.errors.0 }}</p>
+  {% endif %} 
+  <label>メール:</label>
+  {{ form.email }}
+  {% if form.email.errors %}
+    <p class="error">{{ form.email.errors.0 }}</p>
+  {% endif %} 
+  <label>パスワード:</label>
+  {{ form.password1 }}
+  {% if form.passowrd1.errors %}
+    <p class="error">{{ form.passowrd1.errors.0 }}</p>
+  {% endif %} 
+  <label>パスワード（確認）:</label>
+  {{ form.password2 }}
+  {% if form.passowrd2.errors %}
+    <p class="error">{{ form.passowrd2.errors.0 }}</p>
+  {% endif %} 
+
+  <input id="submit" type="submit" value="登録">
+</form>
+
+<div class="login-link">
+  <p>すでにアカウントをお持ちですか？
+    <a href="/my_app/accounts/login/">ログイン</a></p>
+</div>
+{% endblock %}
+

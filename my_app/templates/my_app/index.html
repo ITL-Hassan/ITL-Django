@@ -1,105 +1,67 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>タイトル</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
-</head>
+{% extends 'base.html' %}
 
-<body id="index">
-  <header>
-    <h1>indexページ</h1>
-    
-    <form action='{% url "my_app:logout" %}' method='post' name='logout'>
-      {% csrf_token %}
-      <a href="javascript:logout.submit()">Logout</a>
-    </form>
-  </header>
+{% block head %}
+<title>indexページ</title>
+{% endblock %}
 
-  <!-- 天気情報 -->
-  <!-- <section>
-    <p>{{ weather.date }}の天気：<img src="{{ weather.image }}" alt="{{ weather.telop }}"></p>
-    <p>
-      最高気温 {% if weather.min %}{{ weather.max }}{% else %} - {% endif %}
-       / 
-      最低気温 {% if weather.min %}{{ weather.min }}{% else %} - {% endif %}
-    </p>
-  </section> -->
+{% block page %}index{% endblock %}
 
-  <!-- メッセージ表示 -->
-  {% if messages %}
-    {% for message in messages %}
-      <p class="messages {{ message.tags }}">{{ message }}</p>
+{% block content %}
+<header>
+  <h1>{{ title }}</h1>
+  <form action='{% url "my_app:logout" %}' method='post' name='logout'>
+    {% csrf_token %}
+    <a href="javascript:logout.submit()">Logout</a>
+  </form>
+</header>
+
+<div>
+  <form method="GET" action="{% url 'my_app:index' %}">
+    <input type="text" name="q" value="{{ request.GET.q }}">
+    <!-- 長いため、以降は省略 -->
+
+    並び:
+    <select id="order" name="order">
+      <option value="id" selected>IDの昇順</option>
+      <option value="-id">IDの降順</option>
+      <option value="name">名前の昇順</option>
+      <option value="-name">名前の降順</option>
+      <option value="age">年齢の昇順</option>
+      <option value="-age">年齢の降順</option>
+    </select>
+    <button type="submit" value="search">検索</button>
+  </form>
+</div>
+<br>
+<!-- 長いため、以降は省略 -->
+
+<table>
+  <thead>
+    <tr>
+    {% for col in header %}
+      <th>{{ col }}</th>
     {% endfor %}
-  {% endif %}
-  
-  <style>
-    .messages {
-      color: #222;
-      padding: 10px;
-      font-weight: bold;
-      font-size: 13px;
+      <th>アクション</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in members %}
+    <tr>
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.age }}</td>
+      <td>
+        <a href="{% url 'my_app:update' item.id %}">更新</a>
+        <a href="{% url 'my_app:delete' item.id %}">削除</a> 
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'my_app:create' %}">新規追加</a>
+{% endblock %}
 
-    }
-    .success {
-      border: 3px solid #00c531;
-      background-color: #b9fac9;
-    }
-    .error {
-      border: 3px solid #c42a2a;
-      background-color: #ffcfcf;
-    }
-  </style>
-
-
-  <!-- 検索フォーム -->
-  <div>
-    <form method="GET" action="{% url 'my_app:index' %}">
-      <input type="text" name="q" value="{{ request.GET.q }}">
-
-      並び:
-      <select id="order" name="order">
-        <option value="id" selected>IDの昇順</option>
-        <option value="-id">IDの降順</option>
-        <option value="name">名前の昇順</option>
-        <option value="-name">名前の降順</option>
-        <option value="age">年齢の昇順</option>
-        <option value="-age">年齢の降順</option>
-      </select>
-      <button type="submit" value="search">検索</button>
-
-    </form>
-  </div>
-   
-  <br>
-
-  <table>
-    <thead>
-      <tr>
-      {% for col in header %}
-        <th>{{ col }}</th>
-      {% endfor %}
-        <th>アクション</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in members %}
-      <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.age }}</td>
-        <td>
-          <a href="{% url 'my_app:update' item.id %}">更新</a>
-          <a href="{% url 'my_app:delete' item.id %}">削除</a> 
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <a href="{% url 'my_app:create' %}">新規追加</a>
-</body>
-
+{% block footer %}
 <script>
   // URLから並び順を取得して選択
   const params = new URLSearchParams(window.location.search);
@@ -107,3 +69,5 @@
   if (!order) order = 'id'
   document.getElementById("order").value = order;
 </script>
+{% endblock %}
+

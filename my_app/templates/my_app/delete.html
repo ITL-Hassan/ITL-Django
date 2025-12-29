@@ -1,43 +1,43 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>削除画面</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'my_app/css/style.css' %}">
-</head>
+{% extends 'base.html' %}
 
-<body id="delete">
-  <h1>{{ title }}</h1>
-  
-  <dl>
-    <dt>{{ label.0 }}</dt>
-    <dd>{{ member.id }}</dd>
-    <dt>{{ label.1 }}</dt>
-    <dd>{{ member.name }}</dd>
-    <dt>{{ label.2 }}</dt>
-    <dd>{{ member.age }}</dd>
-    <dt>{{ label.3 }}</dt>
-    <dd>
-      {% if member.image %}
-        <img src="{{ member.image.url }}"/>
-      {% endif %}
-    </dd>
-  </dl>
+{% block head %}
+<title>削除画面</title>
+{% endblock %}
 
-  <form action="{% url 'my_app:delete' id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="削除" id="deleteButton">
-  </form>
-  
-  <script>
-    let delBtn = document.getElementById('deleteButton')
-    delBtn.addEventListener('click', function(event) {
-      if (!confirm("本当に削除しますか？")) {
-        event.preventDefault();
-      }
-    })
-  </script>
+{% block page %}delete{% endblock %}
 
-</body>
+{% block content %}
+<h1>{{ title }}</h1>
+
+<dl>
+  <dt>{{ label.0 }}</dt>
+  <dd>{{ member.id }}</dd>
+  <dt>{{ label.1 }}</dt>
+  <dd>{{ member.name }}</dd>
+  <dt>{{ label.2 }}</dt>
+  <dd>{{ member.age }}</dd>
+  <dt>{{ label.3 }}</dt>
+  <dd>
+    {% if member.image %}
+      <img src="{{ member.image.url }}"/>
+    {% endif %}
+  </dd>
+</dl>
+
+<form action="{% url 'my_app:delete' id %}" method="post">
+  {% csrf_token %}
+  <input type="submit" value="削除" id="deleteButton">
+</form>
+{% endblock %}
+
+{% block footer %}
+<script>
+  let delBtn = document.getElementById('deleteButton')
+  delBtn.addEventListener('click', function(event) {
+    if (!confirm("本当に削除しますか？")) {
+      event.preventDefault();
+    }
+  })
+</script>
+{% endblock %}
 
