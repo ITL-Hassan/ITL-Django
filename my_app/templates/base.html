@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  {% block head %} <!-- ※1 -->
+  {% endblock %}
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css"
+      href="{% static 'my_app/css/style.css' %}">
+</head>
+
+<body id="{% block page %}{% endblock %}"> <!-- ※2 -->
+  {% block content %} <!-- ※3 -->
+  {% endblock %}
+</body>
+
+{% block footer %} <!-- ※4 -->
+{% endblock %}
+</html>
+
