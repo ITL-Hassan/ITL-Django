@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .utils import getWeatherData
 from django.http import Http404
+from django.contrib import messages
 
 @login_required
 def index(request):
@@ -46,7 +47,11 @@ def create(request):
     }
     if form.is_valid():
       form.save()
+      obj = form.instance
+      messages.success(request, print(f'ID:{obj.pk} のデータを追加しました。'))
       return redirect(to='/my_app/index')
+    
+    messages.error(request, 'データの追加に失敗しました。')
   else:
     data = {
       'title' : '入力ページ',
@@ -71,7 +76,11 @@ def update(request, num):
     data['form'] = form
     if form.is_valid():
       form.save()
+      obj = form.instance
+      messages.success(request, f'ID:{obj.pk} {obj.name} のデータを更新しました。')
       return redirect(to='/my_app/index')
+
+    messages.error(request, f'ID:{member_obj.pk} {member_obj.name} の更新に失敗しました。')
   else:
     data['form'] = AddMemberForm(instance=member_obj)
   
@@ -86,7 +95,8 @@ def delete(request, num):
     member_obj.image.delete(save=False)
     member_obj.image = None
     member_obj.save()
-
+    
+    messages.success(request, f'ID:{member_obj.pk} {member_obj.name} の削除が完了しました。')
     return redirect(to='/my_app/index')
   
   data = {

@@ -1,3 +1,19 @@
+.messages {
+  color: #222;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 13px;
+
+  &.success {
+    border: 3px solid #00c531;
+    background-color: #b9fac9;
+  }
+  &.error {
+    border: 3px solid #c42a2a;
+    background-color: #ffcfcf;
+  }
+}
+
 /* index */
 #index {
   th, td {

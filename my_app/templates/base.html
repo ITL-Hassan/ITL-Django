@@ -10,6 +10,13 @@
 </head>
 
 <body id="{% block page %}{% endblock %}"> <!-- ※2 -->
+  <!-- メッセージ表示 -->
+  {% if messages %}
+    {% for message in messages %}
+      <p class="messages {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+  
   {% block content %} <!-- ※3 -->
   {% endblock %}
 </body>
