@@ -18,11 +18,10 @@
 <div>
   <form method="GET" action="{% url 'my_app:index' %}">
     <input type="text" name="q" value="{{ request.GET.q }}">
-    <!-- 長いため、以降は省略 -->
 
     並び:
     <select id="order" name="order">
-      <option value="id" selected>IDの昇順</option>
+      <option value="id">IDの昇順</option>
       <option value="-id">IDの降順</option>
       <option value="name">名前の昇順</option>
       <option value="-name">名前の降順</option>
@@ -63,11 +62,18 @@
 
 {% block footer %}
 <script>
-  // URLから並び順を取得して選択
-  const params = new URLSearchParams(window.location.search);
-  const order = params.get("order");
-  if (!order) order = 'id'
+  let order;
+  const cookies = document.cookie.split(';')
+  
+  for(i=0; i<cookies.length; i++) {
+    const [name, value] = cookies[i].trim().split('=');
+    if (name == 'member_order') {
+      order = value;
+    }
+  }
+  // 追加
   document.getElementById("order").value = order;
 </script>
 {% endblock %}
+
 

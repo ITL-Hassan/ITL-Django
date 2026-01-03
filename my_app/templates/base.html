@@ -2,26 +2,25 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  {% block head %} <!-- ※1 -->
+  {% block head %}
   {% endblock %}
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css"
       href="{% static 'my_app/css/style.css' %}">
 </head>
 
-<body id="{% block page %}{% endblock %}"> <!-- ※2 -->
-  <!-- メッセージ表示 -->
+<body id="{% block page %}{% endblock %}">
   {% if messages %}
     {% for message in messages %}
       <p class="messages {{ message.tags }}">{{ message }}</p>
     {% endfor %}
   {% endif %}
   
-  {% block content %} <!-- ※3 -->
+  {% block content %}
   {% endblock %}
 </body>
 
-{% block footer %} <!-- ※4 -->
+{% block footer %}
 {% endblock %}
 </html>
 

@@ -20,11 +20,12 @@ def index(request):
     )
   else:
     members = Member.objects.filter(deleted=False).all()
-  
+
   if request.GET.get('order'):
     order = request.GET.get('order') 
   else:
-    order = 'id'
+    order = request.COOKIES.get('member_order', 'id')
+    
   members = members.order_by(order)
 
   weather = getWeatherData() 
@@ -35,7 +36,10 @@ def index(request):
     'weather' : weather,
   }
   
-  return render(request, 'my_app/index.html', data)
+  response = render(request, 'my_app/index.html', data)
+  response.set_cookie('member_order', order, max_age=60*60*24*30)
+  return response
+
 
 @login_required
 def create(request):
