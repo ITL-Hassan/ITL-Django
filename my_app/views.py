@@ -7,6 +7,9 @@ from django.db.models import Q
 from .utils import getWeatherData
 from django.http import Http404
 from django.contrib import messages
+import csv
+import io
+from django.http import HttpResponse
 
 @login_required
 def index(request):
@@ -111,7 +114,6 @@ def delete(request, num):
   }
   return render(request, 'my_app/delete.html', data)
 
-
 def signup(request):
   if request.method == "POST":
     form = SignUpForm(request.POST)
@@ -122,3 +124,50 @@ def signup(request):
     form = SignUpForm()
   
   return render(request, 'accounts/signup.html', {'form': form})
+
+def export_csv(request):
+  response = HttpResponse(content_type='text/csv')
+  response['Content-Disposition'] = 'attachment; filename="members.csv"'
+
+  writer = csv.writer(response)
+  writer.writerow(['id', 'name', 'age', 'deleted'])
+
+  for member in Member.objects.all():
+      writer.writerow([member.id, member.name, member.age, member.deleted])
+
+  return response
+
+def import_csv(request):
+  if request.method != 'POST':
+    return redirect('my_app:index')
+
+  csv_file = request.FILES.get('csv_file')
+
+  if not csv_file:
+    messages.error(request, 'CSVファイルが選択されていません')
+    return redirect('my_app:index')
+
+  if not csv_file.name.endswith('.csv'):
+    messages.error(request, 'CSVファイルを選択してください')
+    return redirect('my_app:index')
+  
+  Member.objects.all().delete()
+
+  data = csv_file.read().decode('utf-8')
+  io_string = io.StringIO(data)
+  reader = csv.reader(io_string)
+  header = next(reader, None)
+
+  for row in reader:
+    try:
+      Member.objects.create(
+        name=row[1],
+        age=int(row[2]),
+        deleted=row[3],
+      )
+    except Exception as e:
+      print(f"インポート失敗: {row}, {e}")
+
+  messages.success(request, 'CSVインポートが完了しました')
+  return redirect('my_app:index')
+
